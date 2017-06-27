@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">JobMatch</string>
-    <string name="newUserBtn">New User</string>
-    <string name="newCompanyBtn">New Company</string>
+    <string name="signIn">Sign In</string>
+    <string name="createNew">Create New Account</string>
+    <string-array name="account_types">
+        <item>User</item>
+        <item>Company</item>
+    </string-array>
+    <string name="account_prompt">Choose an account type</string>
+    <string name="accept_new_user">Accept New User</string>
 </resources>

@@ -17,18 +17,19 @@
         android:text="JobMatch" />
 
     <Button
-        android:id="@+id/newUserBtn"
+        android:id="@+id/signIn"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="200dp"
-        android:text="@string/newUserBtn" />
+        android:text="@string/signIn" />
 
     <Button
-        android:id="@+id/newCompanyBtn"
+        android:id="@+id/createNew"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
-        android:text="@string/newCompanyBtn" />
+        android:text="@string/createNew"
+        android:onClick="createUserClick"/>
 </LinearLayout>
