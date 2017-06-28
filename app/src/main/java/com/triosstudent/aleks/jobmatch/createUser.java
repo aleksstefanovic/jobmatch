@@ -7,6 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.io.OutputStreamWriter;
+import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 public class createUser extends Activity {
 
@@ -31,29 +37,41 @@ public class createUser extends Activity {
         String enterPassword2Str = enterPassword2.getText().toString();
     }
 
-    public void ConnectToDatabase() {
+    public static String executePost(String targetURL, String payload) {
+        HttpURLConnection connection = null;
+
         try {
+            URL url = new URL(targetURL);
+            connection = (HttpURLConnection) url.openConnection();
 
-            // SET CONNECTIONSTRING
-            Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-            String username = "XXXXXXXXX";
-            String password = "XXXXXX";
-            Connection DbConn = DriverManager.getConnection("jdbc:jtds:sqlserver://192.188.4.83:1433/DATABASE;user=" + username + ";password=" + password);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setUseCaches(false);
+            connection.setDoOutput(true);
 
-            Log.w("Connection","open");
-            Statement stmt = DbConn.createStatement();
-            ResultSet reset = stmt.executeQuery(" select * from users ");
+            OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(), "UTF-8");
+            writer.write(payload);
+            writer.close();
 
+            InputStream is = connection.getInputStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+            StringBuilder response = new StringBuilder();
 
-            EditText num = (EditText) findViewById(R.id.displaymessage);
-            num.setText(reset.getString(1));
-
-            DbConn.close();
-
-        }
-        catch (Exception e)
-        {
-            Log.w("Error connection","" + e.getMessage());
+            String line;
+            while ((line = rd.readLine()) != null) {
+                response.append(line);
+                response.append('\r');
+            }
+            rd.close();
+            return response.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
         }
     }
+
 }
