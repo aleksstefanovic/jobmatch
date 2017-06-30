@@ -8,4 +8,6 @@
     </string-array>
     <string name="account_prompt">Choose an account type</string>
     <string name="accept_new_user">Accept New User</string>
+
+    <string name="apiurl">https://jobmatchwebservice.herokuapp.com</string>
 </resources>

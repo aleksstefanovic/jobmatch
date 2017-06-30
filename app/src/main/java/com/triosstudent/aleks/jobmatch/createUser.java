@@ -7,12 +7,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.io.OutputStreamWriter;
 import java.io.InputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import android.os.AsyncTask;
 
 public class createUser extends Activity {
 
@@ -35,6 +40,22 @@ public class createUser extends Activity {
         String enterEmailStr = enterEmail.getText().toString();
         String enterPassword1Str = enterPassword1.getText().toString();
         String enterPassword2Str = enterPassword2.getText().toString();
+
+        String apiUrl = getString(R.string.apiurl);
+        JSONObject payload = new JSONObject();
+        try {
+            payload.put("email", enterEmailStr);
+            payload.put("password", enterPassword1Str);
+            payload.put("type", accountType);
+
+            System.out.println(payload.toString());
+            System.out.println(apiUrl+"/users");
+            callWebService job = new callWebService();
+            job.execute(apiUrl+"/users", payload.toString());
+        }
+        catch (JSONException ex) {
+
+        }
     }
 
     public static String executePost(String targetURL, String payload) {
@@ -71,6 +92,18 @@ public class createUser extends Activity {
             if (connection != null) {
                 connection.disconnect();
             }
+        }
+    }
+
+    class callWebService extends AsyncTask<String, Void, String> {
+
+        protected String doInBackground(String[] params) {
+            String response = executePost(params[0], params[1]);
+            return response;
+        }
+
+        protected void onPostExecute(String message) {
+            System.out.println(message);
         }
     }
 
