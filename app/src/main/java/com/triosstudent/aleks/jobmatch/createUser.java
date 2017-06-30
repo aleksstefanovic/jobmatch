@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import android.os.AsyncTask;
+import android.support.design.widget.TextInputLayout;
 
 public class createUser extends Activity {
 
@@ -30,6 +31,15 @@ public class createUser extends Activity {
     }
 
     public void acceptNewUser (View view) {
+        TextInputLayout emailError = (TextInputLayout) findViewById(R.id.emailError);
+        emailError.setError("");
+        TextInputLayout password1Error = (TextInputLayout) findViewById(R.id.password1Error);
+        password1Error.setError("");
+        TextInputLayout password2Error = (TextInputLayout) findViewById(R.id.password2Error);
+        password2Error.setError("");
+        TextInputLayout buttonError = (TextInputLayout) findViewById(R.id.buttonError);
+        buttonError.setError("");
+
         this.view = view;
         Spinner userType = (Spinner) findViewById(R.id.userType);
         EditText enterEmail = (EditText) findViewById(R.id.enterEmail);
@@ -38,8 +48,20 @@ public class createUser extends Activity {
 
         String accountType = String.valueOf(userType.getSelectedItem());
         String enterEmailStr = enterEmail.getText().toString();
+        if (enterEmailStr.isEmpty()) {
+            emailError.setError("You need to enter an email");
+            return;
+        }
         String enterPassword1Str = enterPassword1.getText().toString();
+        if (enterPassword1Str.isEmpty()) {
+            password1Error.setError("You need to enter a password");
+            return;
+        }
         String enterPassword2Str = enterPassword2.getText().toString();
+        if (!enterPassword1Str.equals(enterPassword2Str)) {
+            password2Error.setError("Passwords must match");
+            return;
+        }
 
         String apiUrl = getString(R.string.apiurl);
         JSONObject payload = new JSONObject();
@@ -104,6 +126,21 @@ public class createUser extends Activity {
 
         protected void onPostExecute(String message) {
             System.out.println(message);
+            try {
+                JSONObject response = new JSONObject(message);
+                String code = (String) response.get("code");
+                if (!code.equals("200")) {
+                    TextInputLayout buttonError = (TextInputLayout) findViewById(R.id.buttonError);
+                    buttonError.setError("Error creating user");
+                }
+                else {
+                    Intent intent = new Intent(createUser.this, userProfile.class);
+                    startActivity(intent);
+                }
+            }
+            catch (JSONException ex) {
+
+            }
         }
     }
 
