@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -19,8 +20,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import android.os.AsyncTask;
 import android.support.design.widget.TextInputLayout;
+import com.triosstudent.aleks.jobmatch.CallWebService;
+import com.triosstudent.aleks.jobmatch.OnTaskComplete;
 
-public class createUser extends Activity {
+public class createUser extends Activity implements OnTaskComplete {
 
     private View view;
 
@@ -72,76 +75,14 @@ public class createUser extends Activity {
 
             System.out.println(payload.toString());
             System.out.println(apiUrl+"/users");
-            callWebService job = new callWebService();
-            job.execute(apiUrl+"/users", payload.toString());
+            CallWebService job = new CallWebService(createUser.this);
+            AsyncTask response = job.execute(apiUrl+"/users", payload.toString());
         }
         catch (JSONException ex) {
 
         }
     }
 
-    public static String executePost(String targetURL, String payload) {
-        HttpURLConnection connection = null;
 
-        try {
-            URL url = new URL(targetURL);
-            connection = (HttpURLConnection) url.openConnection();
-
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setUseCaches(false);
-            connection.setDoOutput(true);
-
-            OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(), "UTF-8");
-            writer.write(payload);
-            writer.close();
-
-            InputStream is = connection.getInputStream();
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-            StringBuilder response = new StringBuilder();
-
-            String line;
-            while ((line = rd.readLine()) != null) {
-                response.append(line);
-                response.append('\r');
-            }
-            rd.close();
-            return response.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            if (connection != null) {
-                connection.disconnect();
-            }
-        }
-    }
-
-    class callWebService extends AsyncTask<String, Void, String> {
-
-        protected String doInBackground(String[] params) {
-            String response = executePost(params[0], params[1]);
-            return response;
-        }
-
-        protected void onPostExecute(String message) {
-            System.out.println(message);
-            try {
-                JSONObject response = new JSONObject(message);
-                String code = (String) response.get("code");
-                if (!code.equals("200")) {
-                    TextInputLayout buttonError = (TextInputLayout) findViewById(R.id.buttonError);
-                    buttonError.setError("Error creating user");
-                }
-                else {
-                    Intent intent = new Intent(createUser.this, userProfile.class);
-                    startActivity(intent);
-                }
-            }
-            catch (JSONException ex) {
-
-            }
-        }
-    }
 
 }

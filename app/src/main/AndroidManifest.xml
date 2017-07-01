@@ -21,8 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".createUser"></activity>
-        <activity android:name=".userProfile"></activity>
+        <activity android:name=".createUser" />
+        <activity android:name=".userProfile" />
+        <activity android:name=".signIn"></activity>
     </application>
 
 </manifest>
