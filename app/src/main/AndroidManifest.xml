@@ -22,8 +22,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".createUser" />
-        <activity android:name=".userProfile" />
-        <activity android:name=".signIn"></activity>
+        <activity android:name=".signIn" />
+        <activity
+            android:name=".mainPage"
+            android:label="@string/title_activity_main_page"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

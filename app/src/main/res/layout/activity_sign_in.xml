@@ -79,11 +79,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
-            android:id="@+id/acceptNewUser"
+            android:id="@+id/signIn"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/accept_new_user"
-            android:onClick="acceptNewUser"/>
+            android:text="Sign In"
+            android:onClick="signInUser"/>
     </android.support.design.widget.TextInputLayout>
 </LinearLayout>

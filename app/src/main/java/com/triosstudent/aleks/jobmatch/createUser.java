@@ -20,10 +20,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import android.os.AsyncTask;
 import android.support.design.widget.TextInputLayout;
-import com.triosstudent.aleks.jobmatch.CallWebService;
-import com.triosstudent.aleks.jobmatch.OnTaskComplete;
 
-public class createUser extends Activity implements OnTaskComplete {
+public class createUser extends Activity  {
 
     private View view;
 
@@ -43,7 +41,6 @@ public class createUser extends Activity implements OnTaskComplete {
         TextInputLayout buttonError = (TextInputLayout) findViewById(R.id.buttonError);
         buttonError.setError("");
 
-        this.view = view;
         Spinner userType = (Spinner) findViewById(R.id.userType);
         EditText enterEmail = (EditText) findViewById(R.id.enterEmail);
         EditText enterPassword1 = (EditText) findViewById(R.id.enterPassword1);
@@ -66,20 +63,38 @@ public class createUser extends Activity implements OnTaskComplete {
             return;
         }
 
-        String apiUrl = getString(R.string.apiurl);
-        JSONObject payload = new JSONObject();
-        try {
-            payload.put("email", enterEmailStr);
-            payload.put("password", enterPassword1Str);
-            payload.put("type", accountType);
+        String apiUrl = getString(R.string.apiurl) + "/users";
+        String payload = JobMatchService.buildCreateUserCall(enterEmailStr, enterPassword1Str, accountType);
 
-            System.out.println(payload.toString());
-            System.out.println(apiUrl+"/users");
-            CallWebService job = new CallWebService(createUser.this);
-            AsyncTask response = job.execute(apiUrl+"/users", payload.toString());
+        CallWebService job = new CallWebService();
+        job.execute(apiUrl, payload);
+    }
+
+    class CallWebService extends AsyncTask<String, Void, String> {
+
+        protected String doInBackground(String[] params) {
+            String response = JobMatchService.executePost(params[0], params[1]);
+            return response;
         }
-        catch (JSONException ex) {
 
+        protected void onPostExecute(String message) {
+            System.out.println(message);
+            try {
+                JSONObject response = new JSONObject(message);
+                String code = (String) response.get("code");
+                if (!code.equals("200")) {
+                    TextInputLayout buttonError = (TextInputLayout) findViewById(R.id.buttonError);
+                    buttonError.setError("Error creating user");
+                }
+                else {
+                    Intent intent = new Intent (createUser.this, mainPage.class);
+                    startActivity(intent);
+                }
+            }
+            catch (JSONException ex) {
+                TextInputLayout buttonError = (TextInputLayout) findViewById(R.id.buttonError);
+                buttonError.setError("Error creating user");
+            }
         }
     }
 
