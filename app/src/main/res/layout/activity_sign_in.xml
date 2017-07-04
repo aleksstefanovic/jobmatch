@@ -12,7 +12,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="50dp"
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
         android:text="Choose an Account Type:" />
 
     <Spinner
@@ -32,7 +32,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="30dp"
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
         android:text="Enter Email:" />
 
     <android.support.design.widget.TextInputLayout
@@ -57,7 +57,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="30dp"
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
         android:text="Enter Password:" />
 
     <android.support.design.widget.TextInputLayout
