@@ -1,5 +1,7 @@
 package com.triosstudent.aleks.jobmatch;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,6 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class mainPage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -23,14 +28,39 @@ public class mainPage extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Intent intent = getIntent();
+        final String user_id = intent.getStringExtra("user_id");
+        final String email = intent.getStringExtra("email");
+        final String type = intent.getStringExtra("type");
+        final boolean newUser = intent.getBooleanExtra("newUser", false);
+
+        //System.out.println(findViewById (R.id.userEmail));
+        //userEmail.setText(email);
+
+        TextView welcomeMessage = (TextView) findViewById(R.id.welcomeMessage);
+        if (newUser) {
+            welcomeMessage.setText("Welcome to JobMatch!");
+        }
+        else {
+            welcomeMessage.setText("Welcome back!");
+        }
+
         FloatingActionButton createQuestionnaire = (FloatingActionButton) findViewById(R.id.createQuestionnaire);
-        createQuestionnaire.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Creating Questionnaire", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        if (!type.equals("Company")) {
+            createQuestionnaire.hide();
+        }
+        else {
+            createQuestionnaire.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //Snackbar.make(view, "Creating Questionnaire", Snackbar.LENGTH_LONG)
+                    //        .setAction("Action", null).show();
+                    Intent intent = new Intent (mainPage.this, createQuestionnaire.class);
+                    intent.putExtra("user_id", user_id);
+                    startActivity(intent);
+                }
+            });
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -81,8 +111,9 @@ public class mainPage extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            // Handle the camera action
-        } else if (id == R.id.nav_questions) {
+
+        }
+        else if (id == R.id.nav_questions) {
 
         }
 

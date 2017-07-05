@@ -8,4 +8,12 @@
     tools:context="com.triosstudent.aleks.jobmatch.mainPage"
     tools:showIn="@layout/app_bar_main_page">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/welcomeMessage"
+        android:text="Welcome to JobMatch!"
+        android:textSize="25dp"
+        android:gravity="center"/>
+
 </android.support.constraint.ConstraintLayout>

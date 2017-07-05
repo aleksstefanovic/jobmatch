@@ -32,6 +32,24 @@ public class JobMatchService {
         }
     }
 
+    public static String buildCreateQuestionnaireCall (String user_id, String question1, String question2, String question3, String question4) {
+        JSONObject payload = new JSONObject();
+        try {
+            payload.put("user_id", user_id);
+            payload.put("question1", question1);
+            payload.put("question2", question2);
+            payload.put("question3", question3);
+            payload.put("question4", question4);
+
+            System.out.println(payload.toString());
+            return payload.toString();
+        }
+        catch (JSONException ex) {
+            System.out.println(ex.getStackTrace());
+            return(null);
+        }
+    }
+
     public static String executePost(String targetURL, String payload) {
         HttpURLConnection connection = null;
 

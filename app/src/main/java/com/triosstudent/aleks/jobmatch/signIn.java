@@ -70,6 +70,10 @@ public class signIn extends AppCompatActivity {
                 }
                 else {
                     Intent intent = new Intent (signIn.this, mainPage.class);
+                    intent.putExtra("user_id", (String) response.get("user_id"));
+                    intent.putExtra("email", (String) response.get("email"));
+                    intent.putExtra("type", (String) response.get("type"));
+                    intent.putExtra("newUser", false);
                     startActivity(intent);
                 }
             }
