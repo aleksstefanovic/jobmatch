@@ -57,6 +57,9 @@ public class mainPage extends AppCompatActivity
                     //        .setAction("Action", null).show();
                     Intent intent = new Intent (mainPage.this, createQuestionnaire.class);
                     intent.putExtra("user_id", user_id);
+                    intent.putExtra("email", email);
+                    intent.putExtra("type", type);
+                    intent.putExtra("newUser", false);
                     startActivity(intent);
                 }
             });

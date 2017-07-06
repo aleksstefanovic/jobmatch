@@ -32,6 +32,9 @@ public class createQuestionnaire extends AppCompatActivity {
 
         Intent intent = getIntent();
         final String user_id = intent.getStringExtra("user_id");
+        final String email = intent.getStringExtra("email");
+        final String type = intent.getStringExtra("type");
+        final boolean newUser = intent.getBooleanExtra("newUser", false);
 
         EditText question1 = (EditText) findViewById(R.id.question1);
         EditText question2 = (EditText) findViewById(R.id.question2);
@@ -83,7 +86,12 @@ public class createQuestionnaire extends AppCompatActivity {
                     buttonError.setError("Error creating questionnaire");
                 }
                 else {
-                    System.out.println("QUESTIONNAIRE CREATED");
+                    Intent intent = new Intent (createQuestionnaire.this, mainPage.class);
+                    intent.putExtra("user_id", "");
+                    intent.putExtra("email", "");
+                    intent.putExtra("type", "");
+                    intent.putExtra("newUser", false);
+                    startActivity(intent);
                 }
             }
             catch (JSONException ex) {
