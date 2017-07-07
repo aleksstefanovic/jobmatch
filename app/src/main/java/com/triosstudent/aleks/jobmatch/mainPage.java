@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import layout.questionnaires;
 import org.w3c.dom.Text;
 
 public class mainPage extends AppCompatActivity
@@ -114,10 +116,11 @@ public class mainPage extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-
         }
         else if (id == R.id.nav_questions) {
-
+            questionnaires list = new questionnaires();
+            list.setArguments(getIntent().getExtras());
+            getFragmentManager().beginTransaction().add(android.R.id.content, list).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
