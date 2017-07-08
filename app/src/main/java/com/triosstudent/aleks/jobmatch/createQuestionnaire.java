@@ -29,6 +29,8 @@ public class createQuestionnaire extends AppCompatActivity {
         question3Error.setError("");
         TextInputLayout question4Error = (TextInputLayout) findViewById(R.id.question4Error);
         question4Error.setError("");
+        TextInputLayout titleError = (TextInputLayout) findViewById(R.id.titleError);
+        titleError.setError("");
 
         Intent intent = getIntent();
         final String user_id = intent.getStringExtra("user_id");
@@ -40,6 +42,7 @@ public class createQuestionnaire extends AppCompatActivity {
         EditText question2 = (EditText) findViewById(R.id.question2);
         EditText question3 = (EditText) findViewById(R.id.question3);
         EditText question4 = (EditText) findViewById(R.id.question4);
+        EditText title = (EditText) findViewById(R.id.title);
 
         String question1Str = question1.getText().toString();
         if (question1Str.isEmpty()) {
@@ -61,9 +64,14 @@ public class createQuestionnaire extends AppCompatActivity {
             question4Error.setError("You must enter a question");
             return;
         }
+        String titleStr = title.getText().toString();
+        if (titleStr.isEmpty()) {
+            titleError.setError("You must enter a title");
+            return;
+        }
 
         String apiUrl = getString(R.string.apiurl) + "/questionnaires";
-        String payload = JobMatchService.buildCreateQuestionnaireCall(user_id, question1Str, question2Str, question3Str, question4Str);
+        String payload = JobMatchService.buildCreateQuestionnaireCall(user_id, question1Str, question2Str, question3Str, question4Str, titleStr);
 
         CallWebService job = new CallWebService();
         job.execute(apiUrl, payload);

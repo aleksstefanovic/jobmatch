@@ -32,7 +32,7 @@ public class JobMatchService {
         }
     }
 
-    public static String buildCreateQuestionnaireCall (String user_id, String question1, String question2, String question3, String question4) {
+    public static String buildCreateQuestionnaireCall (String user_id, String question1, String question2, String question3, String question4, String title) {
         JSONObject payload = new JSONObject();
         try {
             payload.put("user_id", user_id);
@@ -40,6 +40,7 @@ public class JobMatchService {
             payload.put("question2", question2);
             payload.put("question3", question3);
             payload.put("question4", question4);
+            payload.put("title", title);
 
             System.out.println(payload.toString());
             return payload.toString();
