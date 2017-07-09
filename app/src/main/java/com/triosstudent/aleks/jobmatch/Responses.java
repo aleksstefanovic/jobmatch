@@ -76,7 +76,7 @@ public class Responses extends AppCompatActivity {
                     JSONArray responses = response.getJSONArray("responses");
                     for (int i=0; i < responses.length(); i++) {
                         JSONObject obj = (JSONObject) responses.get(i);
-                        ResponseCard card = new ResponseCard(obj.getString("response1"), obj.getString("response2"), obj.getString("response3"), obj.getString("response4"), obj.getInt("user_id"), obj.getInt("id"));
+                        ResponseCard card = new ResponseCard(obj.getString("response1"), obj.getString("response2"), obj.getString("response3"), obj.getString("response4"), obj.getString("user_id"), obj.getInt("id"));
                         responseList.add(card);
                     }
 
@@ -84,21 +84,20 @@ public class Responses extends AppCompatActivity {
                     responseCards.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
 
-                    /*responseCards.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    responseCards.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
                             ResponseCard item = (ResponseCard) parent.getItemAtPosition(position);
 
-                            Intent intent = new Intent(mainPage.this, Questionnaire.class);
-                            intent.putExtra("qId", item.getId());
-                            intent.putExtra("q1", item.getQuestion1());
-                            intent.putExtra("q2", item.getQuestion2());
-                            intent.putExtra("q3", item.getQuestion3());
-                            intent.putExtra("q4", item.getQuestion4());
-                            intent.putExtra("qTitle", item.getTitle());
+                            Intent intent = new Intent(Responses.this, UserResponse.class);
+                            intent.putExtra("user_id", item.getUserId());
+                            intent.putExtra("r1", item.getResponse1());
+                            intent.putExtra("r2", item.getResponse2());
+                            intent.putExtra("r3", item.getResponse3());
+                            intent.putExtra("r4", item.getResponse4());
                             startActivity(intent);
                         }
-                    });*/
+                    });
                 }
             }
             catch (JSONException ex) {

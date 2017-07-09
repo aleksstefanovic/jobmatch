@@ -1,10 +1,10 @@
 package com.triosstudent.aleks.jobmatch.responses;
 
 public class ResponseCard {
-    String response1, response2, response3, response4;
-    int user_id, id;
+    String response1, response2, response3, response4, user_id;
+    int id;
 
-    public ResponseCard(String r1, String r2, String r3, String r4, int ui, int i) {
+    public ResponseCard(String r1, String r2, String r3, String r4, String ui, int i) {
         this.response1 = r1;
         this.response2 = r2;
         this.response3 = r3;
@@ -33,7 +33,7 @@ public class ResponseCard {
         return this.id;
     }
 
-    public int getUserId () {
+    public String getUserId () {
         return this.user_id;
     }
 }

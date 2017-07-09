@@ -30,6 +30,7 @@
         <activity android:name=".Questionnaire" />
         <activity android:name=".Response" />
         <activity android:name=".Responses" />
+        <activity android:name=".UserResponse" />
         <activity
             android:name=".mainPage"
             android:label="@string/title_activity_main_page"
