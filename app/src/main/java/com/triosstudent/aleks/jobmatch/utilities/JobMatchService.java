@@ -66,6 +66,61 @@ public class JobMatchService {
         }
     }
 
+    public static String buildUpdateProfileCall (String user_id, String email, String address, String phone, String fullName) {
+        JSONObject payload = new JSONObject();
+        try {
+            payload.put("user_id", user_id);
+            payload.put("email", email);
+            payload.put("phone", phone);
+            payload.put("address", address);
+            payload.put("fullName", fullName);
+
+            System.out.println(payload.toString());
+            return payload.toString();
+        }
+        catch (JSONException ex) {
+            System.out.println(ex.getStackTrace());
+            return(null);
+        }
+    }
+
+    public static String executePut(String targetURL, String payload) {
+        HttpURLConnection connection = null;
+
+        try {
+            URL url = new URL(targetURL);
+            connection = (HttpURLConnection) url.openConnection();
+
+            connection.setRequestMethod("PUT");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setUseCaches(false);
+            connection.setDoOutput(true);
+
+            OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(), "UTF-8");
+            writer.write(payload);
+            writer.close();
+
+            InputStream is = connection.getInputStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+            StringBuilder response = new StringBuilder();
+
+            String line;
+            while ((line = rd.readLine()) != null) {
+                response.append(line);
+                response.append('\r');
+            }
+            rd.close();
+            return response.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+    }
+
     public static String executePost(String targetURL, String payload) {
         HttpURLConnection connection = null;
 

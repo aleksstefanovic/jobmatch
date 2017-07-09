@@ -87,16 +87,9 @@ public class Responses extends AppCompatActivity {
                     /*responseCards.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
-                            QuestionnaireCard item = (QuestionnaireCard) parent.getItemAtPosition(position);
-                            System.out.println("TITLE: " + item.getTitle());
+                            ResponseCard item = (ResponseCard) parent.getItemAtPosition(position);
 
-                            Intent intent;
-                            if (allcards) {
-                                intent = new Intent(mainPage.this, Response.class);
-                            }
-                            else {
-                                intent = new Intent(mainPage.this, Questionnaire.class);
-                            }
+                            Intent intent = new Intent(mainPage.this, Questionnaire.class);
                             intent.putExtra("qId", item.getId());
                             intent.putExtra("q1", item.getQuestion1());
                             intent.putExtra("q2", item.getQuestion2());

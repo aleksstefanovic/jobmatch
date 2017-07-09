@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.StackView;
 import android.widget.TextView;
 
@@ -138,6 +140,17 @@ public class mainPage extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+        String currentUser = sharedPreferences.getString("currentUser", null);
+
+        AccountManager accountManager = get(this);
+        Account[] accounts = accountManager.getAccountsByType("com.triosstudent.aleks.jobmatch.ACCOUNT");
+        Account currentAccount = null;
+        for (int i=0; i < accounts.length; i++) {
+            if (accounts[i].name.equals(currentUser)) {
+                currentAccount = accounts[i];
+            }
+        }
 
         if (id == R.id.nav_profile) {
             ViewGroup parent = (ViewGroup) findViewById(R.id.header);
@@ -148,6 +161,18 @@ public class mainPage extends AppCompatActivity
             }
             View C = getLayoutInflater().inflate(R.layout.profile, parent, false);
             parent.addView(C, 0);
+
+            if (currentAccount != null) {
+                String apiUrl = getString(R.string.apiurl) + "/users";
+                System.out.println("User info is " + currentAccount.describeContents());
+                apiUrl = apiUrl + "?user_id=" + accountManager.getUserData(currentAccount, "user_id");
+                System.out.println(apiUrl);
+
+                TextView userIdView = (TextView) findViewById(R.id.userName);
+                userIdView.setText(currentAccount.name);
+                GetProfile job = new GetProfile();
+                job.execute(apiUrl);
+            }
         }
         else if (id == R.id.nav_questions) {
             ViewGroup parent = (ViewGroup) findViewById(R.id.header);
@@ -158,18 +183,6 @@ public class mainPage extends AppCompatActivity
             }
             View C = getLayoutInflater().inflate(R.layout.questionnaires, parent, false);
             parent.addView(C, 0);
-
-            SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
-            String currentUser = sharedPreferences.getString("currentUser", null);
-
-            AccountManager accountManager = get(this);
-            Account[] accounts = accountManager.getAccountsByType("com.triosstudent.aleks.jobmatch.ACCOUNT");
-            Account currentAccount = null;
-            for (int i=0; i < accounts.length; i++) {
-                if (accounts[i].name.equals(currentUser)) {
-                    currentAccount = accounts[i];
-                }
-            }
 
             if (currentAccount != null) {
                 String apiUrl = getString(R.string.apiurl) + "/questionnaires";
@@ -184,7 +197,6 @@ public class mainPage extends AppCompatActivity
 
         }
         else if (id == R.id.nav_logout) {
-            SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("currentUser", null);
             editor.commit();
@@ -196,6 +208,116 @@ public class mainPage extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void updateProfile (View view) {
+        TextInputLayout buttonError = (TextInputLayout) findViewById(R.id.buttonError);
+        buttonError.setError("");
+
+        SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+        String currentUser = sharedPreferences.getString("currentUser", null);
+
+        AccountManager accountManager = get(this);
+        Account[] accounts = accountManager.getAccountsByType("com.triosstudent.aleks.jobmatch.ACCOUNT");
+        Account currentAccount = null;
+        for (int i=0; i < accounts.length; i++) {
+            if (accounts[i].name.equals(currentUser)) {
+                currentAccount = accounts[i];
+            }
+        }
+
+        if (currentAccount == null) {
+            buttonError.setError("Error updating profile");
+            return;
+        }
+        String user_id = accountManager.getUserData(currentAccount, "user_id");
+
+        EditText fullNameView = (EditText) findViewById(R.id.fullName);
+        EditText addressView = (EditText) findViewById(R.id.address);
+        EditText phoneView = (EditText) findViewById(R.id.phone);
+        EditText emailView = (EditText) findViewById(R.id.email);
+
+        String apiUrl = getString(R.string.apiurl) + "/users";
+        String payload = JobMatchService.buildUpdateProfileCall(user_id, emailView.getText().toString(), addressView.getText().toString(), phoneView.getText().toString(), fullNameView.getText().toString());
+
+        UpdateProfile job = new UpdateProfile();
+        job.execute(apiUrl, payload);
+    }
+
+    class UpdateProfile extends AsyncTask<String, Void, String> {
+
+        protected String doInBackground(String[] params) {
+            String response = JobMatchService.executePut(params[0], params[1]);
+            return response;
+        }
+
+        protected void onPostExecute(String message) {
+            System.out.println(message);
+            TextInputLayout buttonError = (TextInputLayout) findViewById(R.id.buttonError);
+            try {
+                JSONObject response = new JSONObject(message);
+                String code = (String) response.get("code");
+                if (!code.equals("200")) {
+                    buttonError.setError("Error updating profile");
+                }
+                else {
+                    buttonError.setError("Profile successfully updated");
+                }
+            }
+            catch (JSONException ex) {
+                buttonError.setError("Error updating profile");
+            }
+        }
+    }
+
+    class GetProfile extends AsyncTask<String, Void, String> {
+
+        protected String doInBackground(String[] params) {
+            String response = JobMatchService.executeGet(params[0]);
+            return response;
+        }
+
+        protected void onPostExecute(String message) {
+            System.out.println(message);
+            try {
+                JSONObject response = new JSONObject(message);
+                String code = (String) response.get("code");
+                if (!code.equals("200")) {
+                    TextView userIdView = (TextView) findViewById(R.id.userName);
+                    userIdView.setText("Error Displaying Profile");
+                }
+                else {
+                    EditText fullNameView = (EditText) findViewById(R.id.fullName);
+                    EditText addressView = (EditText) findViewById(R.id.address);
+                    EditText phoneView = (EditText) findViewById(R.id.phone);
+                    EditText emailView = (EditText) findViewById(R.id.email);
+
+                    String fullNameStr = null, addressStr = null, phoneStr = null, emailStr = null;
+
+                    if (!response.get("fullname").equals(null)) {
+                        fullNameStr = (String) response.get("fullname");
+                    }
+                    if (!response.get("address").equals(null)) {
+                        addressStr = (String) response.get("address");
+                    }
+                    if (!response.get("phone").equals(null)) {
+                        phoneStr = (String) response.get("phone");
+                    }
+                    if (!response.get("email").equals(null)) {
+                        emailStr = (String) response.get("email");
+                    }
+
+                    fullNameView.setText(fullNameStr);
+                    addressView.setText(addressStr);
+                    phoneView.setText(phoneStr);
+                    emailView.setText(emailStr);
+                }
+            }
+            catch (JSONException ex) {
+                TextView userIdView = (TextView) findViewById(R.id.userName);
+                userIdView.setText("Error Displaying Profile");
+            }
+        }
     }
 
     class GetQuestionnaires extends AsyncTask<String, Void, String> {
