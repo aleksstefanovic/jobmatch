@@ -1,15 +1,13 @@
-package com.triosstudent.aleks.jobmatch;
+package com.triosstudent.aleks.jobmatch.questionnaires;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.triosstudent.aleks.jobmatch.R;
 
 import java.util.ArrayList;
 
@@ -52,11 +50,11 @@ public class QuestionnaireCardAdapter extends BaseAdapter {
             TextView q4 = (TextView) view.findViewById(R.id.q4);
             TextView title = (TextView) view.findViewById(R.id.title);
             holder = new ViewHolder();
-            holder.txtFirst =  (TextView) view.findViewById(R.id.q1);
-            holder.txtSecond = (TextView) view.findViewById(R.id.q2);
-            holder.txtThird = (TextView) view.findViewById(R.id.q3);
-            holder.txtFourth = (TextView) view.findViewById(R.id.q4);
-            holder.txtFifth = (TextView) view.findViewById(R.id.title);
+            holder.txtFirst =  q1;
+            holder.txtSecond = q2;
+            holder.txtThird = q3;
+            holder.txtFourth = q4;
+            holder.txtFifth = title;
             view.setTag(holder);
         }
         else {

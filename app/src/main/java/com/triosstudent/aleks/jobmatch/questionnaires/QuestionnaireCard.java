@@ -1,4 +1,4 @@
-package com.triosstudent.aleks.jobmatch;
+package com.triosstudent.aleks.jobmatch.questionnaires;
 
 public class QuestionnaireCard {
     String question1, question2, question3, question4, title;

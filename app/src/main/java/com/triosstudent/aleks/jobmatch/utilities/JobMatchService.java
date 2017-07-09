@@ -1,4 +1,4 @@
-package com.triosstudent.aleks.jobmatch;
+package com.triosstudent.aleks.jobmatch.utilities;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -15,6 +15,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.triosstudent.aleks.jobmatch.utilities.Hasher;
+import com.triosstudent.aleks.jobmatch.utilities.JobMatchService;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 

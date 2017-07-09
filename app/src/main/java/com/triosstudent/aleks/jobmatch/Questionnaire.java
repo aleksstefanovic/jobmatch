@@ -37,6 +37,21 @@ public class Questionnaire extends AppCompatActivity {
     }
 
     public void viewResponses (View view) {
+        Intent intent = getIntent();
+        final String qId = Integer.toString(intent.getIntExtra("qId", 0));
+        final String q1 = intent.getStringExtra("q1");
+        final String q2 = intent.getStringExtra("q2");
+        final String q3 = intent.getStringExtra("q3");
+        final String q4 = intent.getStringExtra("q4");
+        final String qTitle = intent.getStringExtra("qTitle");
 
+        Intent responsesIntent = new Intent (Questionnaire.this, Responses.class);
+        responsesIntent.putExtra("questionnaire_id", qId);
+        responsesIntent.putExtra("q1", q1);
+        responsesIntent.putExtra("q2", q2);
+        responsesIntent.putExtra("q3", q3);
+        responsesIntent.putExtra("q4", q4);
+        responsesIntent.putExtra("qTitle", qTitle);
+        startActivity(responsesIntent);
     }
 }

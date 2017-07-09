@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.triosstudent.aleks.jobmatch.utilities.JobMatchService;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 

@@ -8,11 +8,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,16 +19,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.Adapter;
 import android.widget.StackView;
 import android.widget.TextView;
+
+import com.triosstudent.aleks.jobmatch.questionnaires.QuestionnaireCard;
+import com.triosstudent.aleks.jobmatch.questionnaires.QuestionnaireCardAdapter;
+import com.triosstudent.aleks.jobmatch.utilities.JobMatchService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static android.accounts.AccountManager.get;
@@ -265,7 +261,8 @@ public class mainPage extends AppCompatActivity
                 }
             }
             catch (JSONException ex) {
-
+                TextView cardTxtView = (TextView) findViewById(R.id.cardTxt);
+                cardTxtView.setText("Error Displaying Questionnaires");
             }
         }
     }

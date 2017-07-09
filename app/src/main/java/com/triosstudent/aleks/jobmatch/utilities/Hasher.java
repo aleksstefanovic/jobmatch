@@ -1,4 +1,4 @@
-package com.triosstudent.aleks.jobmatch;
+package com.triosstudent.aleks.jobmatch.utilities;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

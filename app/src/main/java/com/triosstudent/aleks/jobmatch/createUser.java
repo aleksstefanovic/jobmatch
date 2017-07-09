@@ -6,9 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telecom.Call;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -16,17 +14,11 @@ import android.widget.Spinner;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.io.OutputStreamWriter;
-import java.io.InputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import android.os.AsyncTask;
 import android.support.design.widget.TextInputLayout;
 
-import static android.accounts.AccountManager.get;
-import static java.security.spec.MGF1ParameterSpec.SHA1;
+import com.triosstudent.aleks.jobmatch.utilities.Hasher;
+import com.triosstudent.aleks.jobmatch.utilities.JobMatchService;
 
 public class createUser extends Activity  {
 
