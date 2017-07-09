@@ -10,6 +10,10 @@
             android:id="@+id/nav_questions"
             android:icon="@drawable/ic_assignment_black"
             android:title="Questionnaires" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_highlight_off_black_24dp"
+            android:title="Log Out" />
     </group>
 
 </menu>

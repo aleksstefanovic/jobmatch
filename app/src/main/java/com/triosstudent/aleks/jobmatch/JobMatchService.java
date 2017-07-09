@@ -10,10 +10,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * Created by triosStudent on 6/30/2017.
- */
-
 public class JobMatchService {
 
     public static String buildCreateUserCall (String email, String password, String type) {

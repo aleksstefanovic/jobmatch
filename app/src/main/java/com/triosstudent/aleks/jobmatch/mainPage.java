@@ -87,8 +87,6 @@ public class mainPage extends AppCompatActivity
             createQuestionnaire.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Snackbar.make(view, "Creating Questionnaire", Snackbar.LENGTH_LONG)
-                    //        .setAction("Action", null).show();
                     Intent intent = new Intent (mainPage.this, createQuestionnaire.class);
                     intent.putExtra("user_id", user_id);
                     intent.putExtra("email", email);
@@ -128,12 +126,8 @@ public class mainPage extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -167,12 +161,38 @@ public class mainPage extends AppCompatActivity
             View C = getLayoutInflater().inflate(R.layout.questionnaires, parent, false);
             parent.addView(C, 0);
 
+            SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+            String currentUser = sharedPreferences.getString("currentUser", null);
 
-            String apiUrl = getString(R.string.apiurl) + "/questionnaires";
-            apiUrl = apiUrl + "?user_id=15";
-            System.out.println(apiUrl);
-            CallWebService job = new CallWebService();
-            job.execute(apiUrl);
+            AccountManager accountManager = get(this);
+            Account[] accounts = accountManager.getAccountsByType("com.triosstudent.aleks.jobmatch.ACCOUNT");
+            Account currentAccount = null;
+            for (int i=0; i < accounts.length; i++) {
+                if (accounts[i].name.equals(currentUser)) {
+                    currentAccount = accounts[i];
+                }
+            }
+
+            if (currentAccount != null) {
+                String apiUrl = getString(R.string.apiurl) + "/questionnaires";
+                System.out.println("User info is " + currentAccount.describeContents());
+                if (accountManager.getUserData(currentAccount, "type").equals("Company")) {
+                    apiUrl = apiUrl + "?user_id=" + accountManager.getUserData(currentAccount, "user_id");
+                }
+                System.out.println(apiUrl);
+                GetQuestionnaires job = new GetQuestionnaires();
+                job.execute(apiUrl);
+            }
+
+        }
+        else if (id == R.id.nav_logout) {
+            SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("currentUser", null);
+            editor.commit();
+
+            Intent intent = new Intent (mainPage.this, MainActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -180,7 +200,7 @@ public class mainPage extends AppCompatActivity
         return true;
     }
 
-    class CallWebService extends AsyncTask<String, Void, String> {
+    class GetQuestionnaires extends AsyncTask<String, Void, String> {
 
         protected String doInBackground(String[] params) {
             String response = JobMatchService.executeGet(params[0]);
@@ -196,6 +216,14 @@ public class mainPage extends AppCompatActivity
 
                 }
                 else {
+                    boolean allcards = (boolean) response.get("isAll");
+                    TextView cardTxtView = (TextView) findViewById(R.id.cardTxt);
+                    if (allcards) {
+                        cardTxtView.setText("Current Questionnaires");
+                    }
+                    else {
+                        cardTxtView.setText("Your Questionnaires");
+                    }
                     StackView questionnaireCards = (StackView) findViewById(R.id.questionnaireCards);
                     ArrayList questionnaireList = new ArrayList<QuestionnaireCard>();
                     JSONArray questionnaires = response.getJSONArray("questionnaires");
