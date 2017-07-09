@@ -19,7 +19,7 @@ public class JobMatchService {
     public static String buildCreateUserCall (String email, String password, String type) {
         JSONObject payload = new JSONObject();
         try {
-            payload.put("email", email);
+            payload.put("username", email);
             payload.put("password", password);
             payload.put("type", type);
 

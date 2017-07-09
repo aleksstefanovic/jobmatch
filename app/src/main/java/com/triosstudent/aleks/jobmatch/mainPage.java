@@ -1,6 +1,10 @@
 package com.triosstudent.aleks.jobmatch;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -30,6 +34,8 @@ import org.json.JSONObject;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import static android.accounts.AccountManager.get;
+
 public class mainPage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -41,13 +47,29 @@ public class mainPage extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
-        final String user_id = intent.getStringExtra("user_id");
-        final String email = intent.getStringExtra("email");
-        final String type = intent.getStringExtra("type");
         final boolean newUser = intent.getBooleanExtra("newUser", false);
 
-        //System.out.println(findViewById (R.id.userEmail));
-        //userEmail.setText(email);
+        SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+        String currentUser = sharedPreferences.getString("currentUser", null);
+
+        AccountManager accountManager = get(this);
+        Account[] accounts = accountManager.getAccountsByType("com.triosstudent.aleks.jobmatch.ACCOUNT");
+        Account currentAccount = null;
+        for (int i=0; i < accounts.length; i++) {
+            System.out.println("ACCOUNT: " + accounts[i].name);
+            if (accounts[i].name.equals(currentUser)) {
+                currentAccount = accounts[i];
+            }
+        }
+
+        if (currentAccount == null) {
+            Intent backwardsIntent = new Intent (mainPage.this, MainActivity.class);
+            startActivity(backwardsIntent);
+        }
+        final String user_id = accountManager.getUserData(currentAccount, "user_id");
+        final String email = currentAccount.name;
+        final String type = accountManager.getUserData(currentAccount, "type");
+
 
         TextView welcomeMessage = (TextView) findViewById(R.id.welcomeMessage);
         if (newUser) {

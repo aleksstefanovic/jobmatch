@@ -1,7 +1,11 @@
 package com.triosstudent.aleks.jobmatch;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telecom.Call;
@@ -21,6 +25,9 @@ import java.io.InputStreamReader;
 import android.os.AsyncTask;
 import android.support.design.widget.TextInputLayout;
 
+import static android.accounts.AccountManager.get;
+import static java.security.spec.MGF1ParameterSpec.SHA1;
+
 public class createUser extends Activity  {
 
     private View view;
@@ -32,8 +39,8 @@ public class createUser extends Activity  {
     }
 
     public void acceptNewUser (View view) {
-        TextInputLayout emailError = (TextInputLayout) findViewById(R.id.emailError);
-        emailError.setError("");
+        TextInputLayout usernameError = (TextInputLayout) findViewById(R.id.usernameError);
+        usernameError.setError("");
         TextInputLayout password1Error = (TextInputLayout) findViewById(R.id.password1Error);
         password1Error.setError("");
         TextInputLayout password2Error = (TextInputLayout) findViewById(R.id.password2Error);
@@ -42,14 +49,14 @@ public class createUser extends Activity  {
         buttonError.setError("");
 
         Spinner userType = (Spinner) findViewById(R.id.userType);
-        EditText enterEmail = (EditText) findViewById(R.id.enterEmail);
+        EditText enterusername = (EditText) findViewById(R.id.enterusername);
         EditText enterPassword1 = (EditText) findViewById(R.id.enterPassword1);
         EditText enterPassword2 = (EditText) findViewById(R.id.enterPassword2);
 
         String accountType = String.valueOf(userType.getSelectedItem());
-        String enterEmailStr = enterEmail.getText().toString();
-        if (enterEmailStr.isEmpty()) {
-            emailError.setError("You need to enter an email");
+        String enterusernameStr = enterusername.getText().toString();
+        if (enterusernameStr.isEmpty()) {
+            usernameError.setError("You need to enter an username");
             return;
         }
         String enterPassword1Str = enterPassword1.getText().toString();
@@ -63,11 +70,20 @@ public class createUser extends Activity  {
             return;
         }
 
-        String apiUrl = getString(R.string.apiurl) + "/users";
-        String payload = JobMatchService.buildCreateUserCall(enterEmailStr, enterPassword1Str, accountType);
+        try {
+            String hashedPassword = Hasher.SHA1(enterPassword1Str);
 
-        CallWebService job = new CallWebService();
-        job.execute(apiUrl, payload);
+            String apiUrl = getString(R.string.apiurl) + "/users";
+            String payload = JobMatchService.buildCreateUserCall(enterusernameStr, hashedPassword, accountType);
+
+            CallWebService job = new CallWebService();
+            job.execute(apiUrl, payload);
+        }
+        catch (Exception ex) {
+            buttonError.setError("Error creating user");
+            return;
+        }
+
     }
 
     class CallWebService extends AsyncTask<String, Void, String> {
@@ -83,14 +99,30 @@ public class createUser extends Activity  {
                 JSONObject response = new JSONObject(message);
                 String code = (String) response.get("code");
                 if (!code.equals("200")) {
-                    TextInputLayout buttonError = (TextInputLayout) findViewById(R.id.buttonError);
-                    buttonError.setError("Error creating user");
+                    if ((boolean) response.get("duplicateUser")) {
+                        TextInputLayout usernameError = (TextInputLayout) findViewById(R.id.usernameError);
+                        usernameError.setError("username already exists");
+                    }
+                    else {
+                        TextInputLayout buttonError = (TextInputLayout) findViewById(R.id.buttonError);
+                        buttonError.setError("Error creating user");
+                    }
                 }
                 else {
+                    String userName = (String) response.get("username");
+                    AccountManager accountManager = AccountManager.get(getApplicationContext());
+                    Account account = new Account(userName, "com.triosstudent.aleks.jobmatch.ACCOUNT");
+                    Bundle userData = new Bundle ();
+                    userData.putString("user_id", (String) response.get("user_id"));
+                    userData.putString("type", (String) response.get("type"));
+                    accountManager.addAccountExplicitly(account, "password", userData);
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("currentUser", userName);
+                    editor.commit();
+
                     Intent intent = new Intent (createUser.this, mainPage.class);
-                    intent.putExtra("user_id", (String) response.get("user_id"));
-                    intent.putExtra("email", (String) response.get("email"));
-                    intent.putExtra("type", (String) response.get("type"));
                     intent.putExtra("newUser", true);
                     startActivity(intent);
                 }
