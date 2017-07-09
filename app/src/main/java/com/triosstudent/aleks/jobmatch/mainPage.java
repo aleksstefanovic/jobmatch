@@ -12,6 +12,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Adapter;
 import android.widget.StackView;
@@ -213,10 +215,11 @@ public class mainPage extends AppCompatActivity
                 JSONObject response = new JSONObject(message);
                 String code = (String) response.get("code");
                 if (!code.equals("200")) {
-
+                    TextView cardTxtView = (TextView) findViewById(R.id.cardTxt);
+                    cardTxtView.setText("Error Displaying Questionnaires");
                 }
                 else {
-                    boolean allcards = (boolean) response.get("isAll");
+                    final boolean allcards = (boolean) response.get("isAll");
                     TextView cardTxtView = (TextView) findViewById(R.id.cardTxt);
                     if (allcards) {
                         cardTxtView.setText("Current Questionnaires");
@@ -224,18 +227,41 @@ public class mainPage extends AppCompatActivity
                     else {
                         cardTxtView.setText("Your Questionnaires");
                     }
-                    StackView questionnaireCards = (StackView) findViewById(R.id.questionnaireCards);
+                    final StackView questionnaireCards = (StackView) findViewById(R.id.questionnaireCards);
                     ArrayList questionnaireList = new ArrayList<QuestionnaireCard>();
                     JSONArray questionnaires = response.getJSONArray("questionnaires");
                     for (int i=0; i < questionnaires.length(); i++) {
                         JSONObject obj = (JSONObject) questionnaires.get(i);
-                        QuestionnaireCard card = new QuestionnaireCard(obj.getString("question1"), obj.getString("question2"), obj.getString("question3"), obj.getString("question4"), obj.getString("title"));
+                        QuestionnaireCard card = new QuestionnaireCard(obj.getString("question1"), obj.getString("question2"), obj.getString("question3"), obj.getString("question4"), obj.getString("title"), obj.getInt("id"));
                         questionnaireList.add(card);
                     }
 
                     QuestionnaireCardAdapter adapter = new QuestionnaireCardAdapter(questionnaireList, mainPage.this);
                     questionnaireCards.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
+
+                    questionnaireCards.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
+                            QuestionnaireCard item = (QuestionnaireCard) parent.getItemAtPosition(position);
+                            System.out.println("TITLE: " + item.getTitle());
+
+                            Intent intent;
+                            if (allcards) {
+                                intent = new Intent(mainPage.this, Response.class);
+                            }
+                            else {
+                                intent = new Intent(mainPage.this, Questionnaire.class);
+                            }
+                            intent.putExtra("qId", item.getId());
+                            intent.putExtra("q1", item.getQuestion1());
+                            intent.putExtra("q2", item.getQuestion2());
+                            intent.putExtra("q3", item.getQuestion3());
+                            intent.putExtra("q4", item.getQuestion4());
+                            intent.putExtra("qTitle", item.getTitle());
+                            startActivity(intent);
+                        }
+                    });
                 }
             }
             catch (JSONException ex) {

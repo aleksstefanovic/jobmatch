@@ -95,9 +95,6 @@ public class createQuestionnaire extends AppCompatActivity {
                 }
                 else {
                     Intent intent = new Intent (createQuestionnaire.this, mainPage.class);
-                    intent.putExtra("user_id", "");
-                    intent.putExtra("email", "");
-                    intent.putExtra("type", "");
                     intent.putExtra("newUser", false);
                     startActivity(intent);
                 }

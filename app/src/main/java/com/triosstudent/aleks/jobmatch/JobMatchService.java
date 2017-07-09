@@ -47,6 +47,25 @@ public class JobMatchService {
         }
     }
 
+    public static String buildCreateResponseCall (String user_id, String response1, String response2, String response3, String response4, String questionnaire_id) {
+        JSONObject payload = new JSONObject();
+        try {
+            payload.put("user_id", user_id);
+            payload.put("response1", response1);
+            payload.put("response2", response2);
+            payload.put("response3", response3);
+            payload.put("response4", response4);
+            payload.put("questionnaire_id", questionnaire_id);
+
+            System.out.println(payload.toString());
+            return payload.toString();
+        }
+        catch (JSONException ex) {
+            System.out.println(ex.getStackTrace());
+            return(null);
+        }
+    }
+
     public static String executePost(String targetURL, String payload) {
         HttpURLConnection connection = null;
 
