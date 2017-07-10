@@ -6,7 +6,7 @@ public class QuestionnaireCard {
 
     public QuestionnaireCard (String q1, String q2, String q3, String q4, String t, int i) {
         this.question1 = q1;
-        this.question2 = q1;
+        this.question2 = q2;
         this.question3 = q3;
         this.question4 = q4;
         this.title = t;

@@ -1,75 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/border">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:textStyle="italic"
+        android:textSize="15dp"
         android:textColor="#FFFFFF"
-        android:background="#f49e42"
         android:id="@+id/qTxt1"
         android:minWidth="400dp"
         android:text="Question 1:"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="20dp"
         android:textColor="#FFFFFF"
-        android:background="#f49e42"
         android:id="@+id/q1"
         android:text="TEMP"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="20dp"
+        android:textStyle="italic"
+        android:textSize="15dp"
         android:textColor="#FFFFFF"
-        android:background="#f49e42"
         android:minWidth="400dp"
         android:id="@+id/qTxt2"
         android:text="Question 2:"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="85dp"
+        android:layout_marginLeft="20dp"
         android:textColor="#FFFFFF"
-        android:background="#f49e42"
         android:id="@+id/q2"
         android:text="TEMP2"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="115dp"
+        android:layout_marginLeft="20dp"
+        android:textStyle="italic"
+        android:textSize="15dp"
         android:textColor="#FFFFFF"
-        android:background="#f49e42"
         android:minWidth="400dp"
         android:id="@+id/qTxt3"
         android:text="Question 3:"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginLeft="20dp"
         android:textColor="#FFFFFF"
-        android:background="#f49e42"
         android:id="@+id/q3"
         android:text="TEMP3"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="165dp"
+        android:layout_marginLeft="20dp"
+        android:textStyle="italic"
+        android:textSize="15dp"
         android:textColor="#FFFFFF"
-        android:background="#f49e42"
         android:minWidth="400dp"
         android:id="@+id/qTxt4"
         android:text="Question 4:"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="350dp"
+        android:layout_marginTop="190dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="10dp"
         android:textColor="#FFFFFF"
-        android:background="#f49e42"
         android:id="@+id/q4"
         android:text="TEMP4"/>
 

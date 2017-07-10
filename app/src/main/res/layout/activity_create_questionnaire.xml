@@ -1,150 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#FFFFFF"
     android:orientation="vertical">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#FFFFFF"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/titleTxt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:textColor="#000000"
-        android:text="Enter a Title:" />
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/titleError"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/title"
+        <TextView
+            android:id="@+id/titleTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:textColor="#000000"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:inputType="textShortMessage" >
-        </EditText>
-    </android.support.design.widget.TextInputLayout>
+            android:layout_marginTop="5dp"
+            android:textColor="#000000"
+            android:text="Enter a Title:" />
 
-    <TextView
-        android:id="@+id/question1Txt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        android:textColor="#000000"
-        android:text="Enter Question 1:" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/titleError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textColor="#000000"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:inputType="textShortMessage" >
+            </EditText>
+        </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/question1Error"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/question1"
+        <TextView
+            android:id="@+id/question1Txt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:textColor="#000000"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:inputType="textShortMessage" >
-        </EditText>
-    </android.support.design.widget.TextInputLayout>
+            android:layout_marginTop="20dp"
+            android:textColor="#000000"
+            android:text="Enter Question 1:" />
 
-    <TextView
-        android:id="@+id/question2Txt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        android:textColor="#000000"
-        android:text="Enter Question 2:" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/question1Error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/question1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textColor="#000000"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:inputType="textShortMessage" >
+            </EditText>
+        </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/question2Error"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/question2"
+        <TextView
+            android:id="@+id/question2Txt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:textColor="#000000"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:inputType="textShortMessage" >
-        </EditText>
-    </android.support.design.widget.TextInputLayout>
+            android:layout_marginTop="20dp"
+            android:textColor="#000000"
+            android:text="Enter Question 2:" />
 
-    <TextView
-        android:id="@+id/question3Txt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        android:textColor="#000000"
-        android:text="Enter Question 3:" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/question2Error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/question2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textColor="#000000"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:inputType="textShortMessage" >
+            </EditText>
+        </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/question3Error"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/question3"
+        <TextView
+            android:id="@+id/question3Txt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:textColor="#000000"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:inputType="textShortMessage" >
-        </EditText>
-    </android.support.design.widget.TextInputLayout>
+            android:layout_marginTop="20dp"
+            android:textColor="#000000"
+            android:text="Enter Question 3:" />
 
-    <TextView
-        android:id="@+id/question4Txt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        android:textColor="#000000"
-        android:text="Enter Question 4:" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/question3Error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/question3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textColor="#000000"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:inputType="textShortMessage" >
+            </EditText>
+        </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/question4Error"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/question4"
+        <TextView
+            android:id="@+id/question4Txt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:textColor="#000000"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:inputType="textShortMessage" >
-        </EditText>
-    </android.support.design.widget.TextInputLayout>
+            android:layout_marginTop="20dp"
+            android:textColor="#000000"
+            android:text="Enter Question 4:" />
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/buttonError"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/submitQuestionnaire"
-            android:layout_width="150dp"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/question4Error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/question4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textColor="#000000"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:inputType="textShortMessage" >
+            </EditText>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/buttonError"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Submit Questionnaire"
-            android:onClick="submitQuestionnaire"/>
-    </android.support.design.widget.TextInputLayout>
-</LinearLayout>
+            android:layout_marginBottom="20dp">
+            <Button
+                android:id="@+id/submitQuestionnaire"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Submit Questionnaire"
+                android:onClick="submitQuestionnaire"/>
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+</ScrollView>

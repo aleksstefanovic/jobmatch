@@ -72,8 +72,9 @@ public class UserResponse extends AppCompatActivity {
                     TextView addressView = (TextView) findViewById(R.id.address);
                     TextView phoneView = (TextView) findViewById(R.id.phone);
                     TextView emailView = (TextView) findViewById(R.id.email);
+                    TextView userIdView = (TextView) findViewById(R.id.userName);
 
-                    String fullNameStr = null, addressStr = null, phoneStr = null, emailStr = null;
+                    String fullNameStr = null, addressStr = null, phoneStr = null, emailStr = null, userNameStr = null;
 
                     if (!response.get("fullname").equals(null)) {
                         fullNameStr = (String) response.get("fullname");
@@ -87,11 +88,15 @@ public class UserResponse extends AppCompatActivity {
                     if (!response.get("email").equals(null)) {
                         emailStr = (String) response.get("email");
                     }
+                    if (!response.get("userName").equals(null)) {
+                        userNameStr = (String) response.get("userName");
+                    }
 
                     fullNameView.setText(fullNameStr);
                     addressView.setText(addressStr);
                     phoneView.setText(phoneStr);
                     emailView.setText(emailStr);
+                    userIdView.setText(userNameStr);
                 }
             }
             catch (JSONException ex) {
